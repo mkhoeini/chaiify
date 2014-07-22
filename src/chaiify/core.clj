@@ -23,7 +23,8 @@
 ;; Ring helper stuff
 
 (defn- head-str [base]
-  (enlive/html [:script {:src (str base "/chai.js")}]))
+  (enlive/html [:script {:src (str base "/chai.js")}]
+               [:script "var expect = chai.expect;"]))
 
 (defn apply-chaiify [html base]
   (enlive/sniptest html

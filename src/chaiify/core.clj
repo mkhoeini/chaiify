@@ -12,11 +12,16 @@
         sections (map #(str "-" %) (butlast sections))]
     (map symbol (concat sections (list last-sect)))))
 
-(defmacro expect [subj pred & params]
+(defmacro expect
+  ([subj pred]
+   (let [symify (fn [s] (symbol (str "-" s)))
+         pred-list (map symify (s/split (name pred) #"-"))]
+     `(.. (js/expect ~subj) ~@pred-list)))
+  ([subj pred & params]
   (let [pred-list (process-pred pred)
         between-preds (butlast pred-list)
         last-pred (last pred-list)]
-    `(.. (js/expect ~subj) ~@between-preds (~last-pred ~@params))))
+    `(.. (js/expect ~subj) ~@between-preds (~last-pred ~@params)))))
 
 
 

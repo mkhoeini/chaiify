@@ -1,13 +1,13 @@
 (ns chaiify.core
   (:require [net.cgrand.enlive-html :as enlive]
+            [clojure.string :as s]
             [ring.util.response :refer (response resource-response)]))
 
 
 
 (defn- process-pred [pred]
   (let [sections (-> (name pred)
-                     (.split "-")
-                     js->clj)
+                     (s/split #"-"))
         last-sect (last sections)
         sections (map #(str "-" %) (butlast sections))]
     (map symbol (concat sections (list last-sect)))))
